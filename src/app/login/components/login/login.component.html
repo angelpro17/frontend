@@ -53,15 +53,18 @@
         <a href="#">¿Has olvidado tu contraseña?</a>
       </div>
 
-      <!-- Iniciar sesión -->
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        [disabled]="!loginForm.form.valid"
-      >
-        Iniciar Sesión
-      </button>
+
+      <div class="button-container">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!loginForm.form.valid"
+        >
+          Iniciar Sesión
+        </button>
+      </div>
+
     </form>
 
     <!-- Crear cuenta - se mueve fuera del form para evitar conflictos -->

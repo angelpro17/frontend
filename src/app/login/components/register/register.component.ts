@@ -44,6 +44,7 @@ export class RegisterComponent {
       (users) => {
         if (users && users.length > 0) {
           alert('Ya existe una cuenta con este correo electrónico.');
+          this.router.navigate(['/login']);
         } else {
           const userData = { username: this.username, email: this.email, password: this.password };
           this.authService.register(userData).subscribe(
@@ -51,10 +52,6 @@ export class RegisterComponent {
               alert('Registro exitoso. Ahora puedes iniciar sesión.');
               this.router.navigate(['/login']); // Navega al login
             },
-            error => {
-              console.error('Error al registrar', error);
-              alert('Ocurrió un error durante el registro.');
-            }
           );
         }
       },

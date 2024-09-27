@@ -1,3 +1,10 @@
+/* Centrar el botón */
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Resto de tu CSS */
 .full-width {
   width: 100%;
 }
@@ -24,12 +31,7 @@
   margin: 0 auto;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-h2 {
+h1, h2 {
   text-align: center;
   margin-bottom: 20px;
 }
