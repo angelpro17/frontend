@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { catchError, map, Observable, throwError } from "rxjs";
+import { catchError, map, Observable, throwError, switchMap } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,10 @@ export class AuthService {
         if (existingUser) {
           throw new Error('User already exists');
         }
-        return this.http.post(`${this.baseUrl}/users`, userData).pipe(
+        return userData;  // Devuelve userData para el siguiente paso
+      }),
+      switchMap(validUserData => {
+        return this.http.post(`${this.baseUrl}/users`, validUserData).pipe(
           catchError(this.handleError)
         );
       }),
@@ -59,10 +62,10 @@ export class AuthService {
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
+      // Error del lado del cliente
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Server-side error
+      // Error del lado del servidor
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.error(errorMessage);
