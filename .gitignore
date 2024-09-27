@@ -1,5 +1,9 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+#Environment variables, API keys, and other secrets (only an example, not a real file)
+.env
+src/environments/environments.ts
+
 # Compiled output
 /dist
 /tmp

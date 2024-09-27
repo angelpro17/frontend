@@ -1,0 +1,64 @@
+<app-toolbar></app-toolbar>>
+<div class="ticket-booking-container">
+
+  <div class="map-section">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Buscar</mat-label>
+      <input matInput placeholder="Buscar ubicación">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="map-container">
+      <!-- Placeholder for the map -->
+      <div class="map-placeholder">
+        <mat-icon>place</mat-icon>
+      </div>
+    </div>
+
+    <div class="map-actions">
+      <button mat-stroked-button color="primary" (click)="expandMap()">Ampliar el mapa</button>
+      <button mat-stroked-button color="primary" (click)="navigateToMaps()">Ver más del mapa</button>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <div class="distance-info">
+      <span>Distancia</span>
+      <div class="distance-value">9 Km</div>
+    </div>
+
+    <div class="driver-info">
+      <span>Conductor disponible</span>
+      <mat-card class="driver-card">
+        <mat-card-content>
+          <div class="car-info">
+            <mat-icon>directions_car</mat-icon>
+            <div class="car-details">
+              <span class="car-model">BMW-R2</span>
+              <span class="car-plate">A1B-234</span>
+            </div>
+          </div>
+          <div class="driver-details">
+            <span class="driver-name">Carla Muñoz</span>
+            <div class="driver-rating">
+              <mat-icon>star</mat-icon>
+              <span>4.5</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="booking-options">
+      <span>¿Deseas reservar?</span>
+      <div class="options-buttons">
+        <button mat-raised-button color="primary" (click)="navigateToBooking()">SI</button>
+        <button mat-raised-button color="warn" (click)="navigateToHome()">NO</button>
+      </div>
+    </div>
+
+    <button mat-raised-button color="accent" class="request-button" (click)="navigateToBooking()">
+      Solicitar viaje
+    </button>
+  </div>
+</div>

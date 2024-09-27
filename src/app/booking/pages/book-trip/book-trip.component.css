@@ -1,0 +1,50 @@
+.booking-card {
+  padding: 20px;
+  max-width: 700px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.date-time-selector {
+  margin: 20px 0;
+}
+
+.driver-details {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.driver-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.discount-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.insurance-selection,
+.discount-section,
+.total {
+  margin: 20px 0;
+}
+
+.total {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.confirm-button {
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+}
+
+.confirm-button:hover {
+  background-color: #45a049;
+}
