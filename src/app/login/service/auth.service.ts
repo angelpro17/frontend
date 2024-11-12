@@ -1,3 +1,4 @@
+// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -23,7 +24,7 @@ export class AuthService {
     return this.http.post<any>(url, body, { headers }).pipe(
       map(response => {
         if (response && response.token) {
-          localStorage.setItem('token', response.token); // Almacena el token
+          localStorage.setItem('token', response.token); // Almacena el token aquí
           return true;
         }
         return false;
@@ -35,6 +36,7 @@ export class AuthService {
     );
   }
 
+
   register(username: string, password: string, role: string = 'USER'): Observable<any> {
     const url = `${this.apiUrl}/sign-up`;
     const body = { username, password, role };
@@ -42,7 +44,7 @@ export class AuthService {
 
     return this.http.post<any>(url, body, { headers }).pipe(
       catchError(error => {
-        console.error('Error during registration:', error);
+        console.error('Error durante el registro:', error);
         return of(null);
       })
     );

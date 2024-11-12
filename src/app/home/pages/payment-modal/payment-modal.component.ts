@@ -1,185 +1,137 @@
-import { Component, OnInit } from '@angular/core';
+// payment-modal.component.ts
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
-import {MatDialog, MatDialogContent, MatDialogModule, MatDialogTitle} from "@angular/material/dialog";
-import {MatProgressSpinner, MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {Router} from "@angular/router";
-import {ToolbarComponent} from "../../components/toolbar/toolbar.component";
 
 @Component({
-  selector: 'app-payment-form',
+  selector: 'app-payment-modal',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatCardModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatButtonToggleModule,
-    MatSnackBarModule,
-    ToolbarComponent
+    MatButtonModule
   ],
-  templateUrl: './payment-modal.component.html',
-  styleUrls: ['./payment-modal.component.css']
-})
-export class PaymentModalComponent implements OnInit {
-  paymentForm: FormGroup;
-  paypalForm: FormGroup;
-  paymentMethod: FormControl;
-  isLoading = false;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog,
-    private router: Router
-  ) {
-    this.paymentMethod = new FormControl('card');
-
-    this.paymentForm = this.formBuilder.group({
-      cardNumber: ['', [Validators.required, Validators.pattern(/^(\d{4}\s){3}\d{4}$/)]],
-      expiryDate: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/), this.validateExpiryDate]],
-      cvc: ['', [Validators.required, Validators.pattern(/^[0-9]{3}$/)]]
-    });
-
-    this.paypalForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
-    });
-  }
-
-  ngOnInit() {
-    this.paymentMethod.valueChanges.subscribe(method => {
-      if (method === 'paypal') {
-        this.paymentForm.disable();
-      } else {
-        this.paymentForm.enable();
-      }
-    });
-  }
-
-  formatCardNumber(event: any) {
-    let input = event.target;
-    let trimmed = input.value.replace(/\s+/g, '');
-    if (trimmed.length > 16) {
-      trimmed = trimmed.substr(0, 16);
-    }
-    let numbers = [];
-    for (let i = 0; i < trimmed.length; i += 4) {
-      numbers.push(trimmed.substr(i, 4));
-    }
-    input.value = numbers.join(' ');
-    this.paymentForm.get('cardNumber')?.setValue(input.value);
-  }
-
-  formatExpiryDate(event: any) {
-    let input = event.target;
-    let trimmed = input.value.replace(/[^\d]/g, '');
-    if (trimmed.length > 4) {
-      trimmed = trimmed.substr(0, 4);
-    }
-    if (trimmed.length > 2) {
-      input.value = trimmed.substr(0, 2) + '/' + trimmed.substr(2);
-    } else {
-      input.value = trimmed;
-    }
-    this.paymentForm.get('expiryDate')?.setValue(input.value);
-  }
-
-  validateExpiryDate(control: FormControl) {
-    if (control.value) {
-      const [month, year] = control.value.split('/');
-      const currentYear = new Date().getFullYear() % 100;
-      if (parseInt(year) <= currentYear) {
-        return { invalidDate: true };
-      }
-    }
-    return null;
-  }
-
-  isFormValid(): boolean {
-    return this.paymentForm.valid && !this.isLoading;
-  }
-
-  onSubmit() {
-    if (this.isFormValid()) {
-      this.isLoading = true;
-      const dialogRef = this.dialog.open(LoadingDialogComponent, {
-        disableClose: true
-      });
-
-      // Simulate payment processing
-      setTimeout(() => {
-        dialogRef.componentInstance.setSuccess();
-
-        // Redirect to home after 2 seconds
-        setTimeout(() => {
-          this.isLoading = false;
-          dialogRef.close();
-          this.router.navigate(['/home']);
-        }, 2000);
-      }, 3000);
-    }
-  }
-
-  onPaypalSubmit() {
-    if (this.paypalForm.valid) {
-      // Redirect to PayPal login page
-      window.location.href = 'https://www.paypal.com/signin';
-    }
-  }
-}
-
-@Component({
-  selector: 'app-loading-dialog',
   template: `
-    <h2 mat-dialog-title>{{ title }}</h2>
+    <h2 mat-dialog-title>Pago para Plan {{data.plan}}</h2>
     <mat-dialog-content>
-      <div class="loading-content">
-        <mat-spinner *ngIf="!success" diameter="50"></mat-spinner>
-        <mat-icon *ngIf="success" class="success-icon">check_circle</mat-icon>
-        <p>{{ message }}</p>
-      </div>
+      <form [formGroup]="paymentForm" class="payment-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Número de tarjeta</mat-label>
+          <input matInput formControlName="cardNumber" placeholder="4970 1000 0000 0063">
+          <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('required')">
+            Número de tarjeta es requerido
+          </mat-error>
+          <mat-error *ngIf="paymentForm.get('cardNumber')?.hasError('pattern')">
+            Número de tarjeta inválido
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre en la tarjeta</mat-label>
+          <input matInput formControlName="cardHolderName">
+          <mat-error *ngIf="paymentForm.get('cardHolderName')?.hasError('required')">
+            Nombre es requerido
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha de expiración</mat-label>
+            <input matInput formControlName="expiryDate" placeholder="MM/YY">
+            <mat-error *ngIf="paymentForm.get('expiryDate')?.hasError('required')">
+              Fecha de expiración es requerida
+            </mat-error>
+            <mat-error *ngIf="paymentForm.get('expiryDate')?.hasError('pattern')">
+              Formato inválido (MM/YY)
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>CVV</mat-label>
+            <input matInput formControlName="cvv" maxlength="3">
+            <mat-error *ngIf="paymentForm.get('cvv')?.hasError('required')">
+              CVV es requerido
+            </mat-error>
+            <mat-error *ngIf="paymentForm.get('cvv')?.hasError('pattern')">
+              CVV inválido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </form>
     </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="onCancel()">Cancelar</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onSubmit()"
+        [disabled]="!paymentForm.valid">
+        Pagar S/.{{data.amount}}
+      </button>
+    </mat-dialog-actions>
   `,
   styles: [`
-    .loading-content {
+    .payment-form {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      gap: 1rem;
+      min-width: 300px;
     }
-    p {
-      margin-top: 20px;
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
     }
-    .success-icon {
-      font-size: 50px;
-      height: 50px;
-      width: 50px;
-      color: #4caf50;
+    mat-form-field {
+      width: 100%;
     }
-  `],
-  standalone: true,
-  imports: [MatDialogModule, MatProgressSpinnerModule, MatIconModule, CommonModule]
+  `]
 })
-export class LoadingDialogComponent {
-  title = 'Procesando pago';
-  message = 'Por favor espere...';
-  success = false;
+export class PaymentModalComponent {
+  paymentForm: FormGroup;
 
-  setSuccess() {
-    this.success = true;
-    this.title = 'Pago Exitoso';
-    this.message = 'Transacción realizada correctamente';
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<PaymentModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { plan: string; amount: number }
+  ) {
+    this.paymentForm = this.fb.group({
+      cardNumber: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
+      cardHolderName: ['', Validators.required],
+      expiryDate: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]],
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]]
+    });
+  }
+  formatCardNumber(event: Event): void {
+    const input = (event.target as HTMLInputElement);
+    input.value = input.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
+  }
+
+  formatExpiryDate(event: Event): void {
+    const input = (event.target as HTMLInputElement);
+    input.value = input.value.replace(/[^0-9]/g, '').replace(/(.{2})/, '$1/').substr(0, 5);
+  }
+
+  formatCVV(event: Event): void {
+    const input = (event.target as HTMLInputElement);
+    input.value = input.value.replace(/\D/g, '').substr(0, 3);
+  }
+
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  onSubmit(): void {
+    if (this.paymentForm.valid) {
+      this.dialogRef.close(this.paymentForm.value);
+    }
   }
 }

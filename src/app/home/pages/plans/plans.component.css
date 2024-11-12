@@ -1,166 +1,89 @@
-/* Estilos generales para la sección de planes */
 .plans {
-  padding: 5rem 9%;
-  background-color: rgba(232, 144, 65, 1);
-  text-align: left;
-  height: auto;/* Ocupar toda la altura de la pantalla */
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centrar verticalmente */
-  align-items: center; /* Centrar horizontalmente */
+  padding: 2rem;
 }
 
-.plans .our-plans {
-  font-size: 50px;
-  color: #fff;
-  margin-bottom: 4rem;
-  font-weight: bold;
-  margin-top: -3rem;
+.our-plans {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .plan-cards {
-  display: flex;
-  justify-content: space-around;
-  gap: 4rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
-/* Estilo de los cards */
 .plan-card {
-  background-color: #fff;
-  border-radius: 10px;
+  position: relative;
   padding: 2rem;
-  flex: 1 1 300px;
-  height: auto;
-
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-
-}
-
-.plan-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.featured {
-  border: 5px solid black; /* Ajustar color del borde según sea necesario */
-}
-
-.plan-card h3 {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.plan-card .price {
-  font-size: 48px;
-  font-weight: bold;
-  border-bottom: 2px solid black;
-  color: black;
-  margin-bottom: 2rem;
-  text-align: center;
-  border-bottom: 2px solid #333; /* Línea debajo del precio */
-  padding-bottom: 30px;
-}
-
-.plan-card .price span {
-  font-size: 1.6rem;
-  color: #666;
-}
-
-.plan-card ul {
-  list-style-type: none;
-  margin-bottom: 2rem;
-  margin-top: 50px;
-  padding: 0;
-
-}
-
-.plan-card ul li {
-  font-size: 15px;
-  line-height: 3rem;
-  color: #666;
   display: flex;
-  align-items: center;
+  flex-direction: column;
 }
 
-.plan-card ul li:before {
-  content: '✔';
-  margin-right: 0.5rem;
-  color: #fff;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: #012840;
-}
-
-.plan-card button {
-  background-color: black;
-  color: #fff;
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1.6rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.plan-card button:hover {
-  background-color: #e64a2e;
-}
-
-.plan-card .cancel {
-  font-size: 1rem;
-  color: #666;
-  text-align: center;
+.plan-card.featured {
+  border: 2px solid #1976d2;
 }
 
 .popular {
-  background-color: #F78B26;
-  color: #FFFFFF;
-  padding: 5px 10px;
-  border-radius: 10px;
-  font-size: 14px;
-  margin-top: -1.5rem;
-  margin-bottom: -20px;
-  width: auto;
-  text-align: center;
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1976d2;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.875rem;
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-  .plans{
-    width: auto;
-    height: auto;
-  }
-  .plan-cards {
-    flex-direction: column;
-    align-items: center;
-  }
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
 
-  .plan-card {
-    margin-bottom: 2rem;
-    width: auto;
-    height: auto;
-  }
+.price {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
 
-  .plan-card button {
-    margin-left: 0; /* Alinear el botón en pantallas pequeñas */
-  }
+.price span {
+  font-size: 1rem;
+  color: #666;
+}
 
-  .plan-card .cancel {
-    margin-left: 0;
-  }
-  .plan-card ul li {
-    font-size: 15px;
-    line-height: 1.5rem;
-    color: #666;
-    display: flex;
-    align-items: center;
-  }
+ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+li {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+li:before {
+  content: "•";
+  color: #1976d2;
+}
+
+button {
+  margin-top: auto;
+}
+
+.cancel {
+  text-align: center;
+  color: #666;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+
+.subscription-status {
+  text-align: center;
+  margin-top: 2rem;
+  font-weight: bold;
+  color: #1976d2;
 }
