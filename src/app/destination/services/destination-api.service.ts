@@ -9,7 +9,7 @@ import {ServiceDestination} from "./interfaces/destinationApi";
 export class DestinationApiService {
 
   //Aqui va ir el URL del JSON-SERVER
-  private apiUrl = 'https://fake-api-go-uni.vercel.app/destinations';
+  private apiUrl = 'http://localhost:3000/destinations';
 
   constructor(private http: HttpClient) { }
 

@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { MatButtonToggle, MatButtonToggleGroup } from "@angular/material/button-toggle";
-import { MatFormField } from "@angular/material/form-field";
-import { ServiceDestination } from "../../../destination/services/interfaces/destinationApi";
-import { ActivatedRoute, Router } from "@angular/router";
-import { DestinationApiService } from "../../../destination/services/destination-api.service";
-import { MatDivider } from "@angular/material/divider";
-import { MatCard } from "@angular/material/card";
-import { FormsModule } from "@angular/forms";
-import { CommonModule, DecimalPipe, NgForOf } from "@angular/common";
-import { MatButton } from "@angular/material/button";
-import { MatInput } from "@angular/material/input";
+import {Component, OnInit} from '@angular/core';
+import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
+import {MatFormField} from "@angular/material/form-field";
+import {ServiceDestination} from "../../../destination/services/interfaces/destinationApi";
+import {ActivatedRoute, Router} from "@angular/router";
+import {DestinationApiService} from "../../../destination/services/destination-api.service";
+import {MatDivider} from "@angular/material/divider";
+import {MatCard} from "@angular/material/card";
+import {FormsModule} from "@angular/forms";
+import {CommonModule, DecimalPipe, NgForOf} from "@angular/common";
+import {MatButton} from "@angular/material/button";
+import {MatInput} from "@angular/material/input";
 import { Location } from '@angular/common';
-import { ToolbarComponent } from "../../../home/components/toolbar/toolbar.component";
-import { ReservaService } from "../../../maps/pages/reservation-cards/service/reserva.service";
+import {ToolbarComponent} from "../../../home/components/toolbar/toolbar.component";
+import {ReservaService} from "../../../maps/pages/reservation-cards/service/reserva.service";
 
 @Component({
   selector: 'app-book-trip',
@@ -32,9 +32,9 @@ import { ReservaService } from "../../../maps/pages/reservation-cards/service/re
     ToolbarComponent
   ],
   templateUrl: './book-trip.component.html',
-  styleUrls: ['./book-trip.component.css']
+  styleUrl: './book-trip.component.css'
 })
-export class BookTripComponent implements OnInit {
+export class BookTripComponent implements OnInit{
   destinationId!: number;
   destination!: ServiceDestination;
 
@@ -65,8 +65,7 @@ export class BookTripComponent implements OnInit {
     this.destinationService.getDestinationById(this.destinationId).subscribe((data: ServiceDestination) => {
       this.destination = data;
     });
-
-    // Mostrar el generador de días
+    //Mostrar el generador de días
     this.generateDays();
   }
 
@@ -83,7 +82,7 @@ export class BookTripComponent implements OnInit {
     }
   }
 
-  // Método para aplicar el descuento
+  // Metodo para aplicar el descuento
   applyDiscount(): void {
     // Comprobar si el código de descuento ingresado coincide con el discountCode del conductor
     if (this.discountCode.toLowerCase() === this.destination.driver.discountCode.toLowerCase()) {
@@ -101,7 +100,7 @@ export class BookTripComponent implements OnInit {
     }
   }
 
-  // Método para confirmar la reserva
+  //Metodo para confirmar la reserva
   confirmReservation(): void {
     console.log('Botón de confirmar viaje presionado');  // Agrega este log para depurar
 
@@ -115,24 +114,18 @@ export class BookTripComponent implements OnInit {
       ubicacion: this.destination.location,
       hora: this.selectedTime,
       estado: 'Confirmado',
-      fecha: `${this.selectedDate}/09/2024`,  // Formatea la fecha según tu preferencia
+      fecha: `${this.selectedDate}/09/2024`,
       driver: this.destination.driver,  // Asegúrate de guardar los datos del conductor
-      destinationId: this.destinationId
+      destinationId: this.destinationId// Formatea la fecha según tu preferencia
     };
 
-    console.log('Datos de la reserva:', newReservation);  // Depuración adicional
-
+    //Codigo de prueba
     // Agregar la nueva reserva usando el servicio
-    this.reservaService.addReserva(newReservation).subscribe({
-      next: () => {
-        console.log('Reserva agregada exitosamente.');  // Confirmación de que la reserva se agregó correctamente
-        alert(`Reserva confirmada para ${this.destination.name} el día ${this.selectedDate} a las ${this.selectedTime}`);
-        this.router.navigate(['/reservations']);  // Redirigir a la página de reservas
-      },
-      error: (error) => {
-        console.error('Error al confirmar la reserva:', error);  // Mostrar el error en la consola
-        alert('Hubo un problema al procesar tu reserva. Intenta nuevamente.');
-      }
+    this.reservaService.addReserva(newReservation).subscribe(() => {
+      alert(`Reserva confirmada para ${this.destination.name} el día ${this.selectedDate} a las ${this.selectedTime}`);
+      this.router.navigate(['/reservations']);  // Redirigir a la página de reservas
+    }, error => {
+      console.error('Error al confirmar la reserva', error);
     });
   }
 

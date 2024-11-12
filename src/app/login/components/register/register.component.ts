@@ -27,12 +27,12 @@ import {NgOptimizedImage} from "@angular/common";
 })
 export class RegisterComponent {
   username: string = '';
-  email: string = '';
+  email: string = ''; // No se usa en este caso
   password: string = '';
   showPassword = false;
   termsAccepted = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     if (!this.termsAccepted) {
@@ -40,26 +40,20 @@ export class RegisterComponent {
       return;
     }
 
-    this.authService.checkUserExists(this.email).subscribe(
-      (users) => {
-        if (users && users.length > 0) {
-          alert('Ya existe una cuenta con este correo electrónico.');
-          this.router.navigate(['/login']);
-        } else {
-          const userData = { username: this.username, email: this.email, password: this.password };
-          this.authService.register(userData).subscribe(
-            () => {
-              alert('Registro exitoso. Ahora puedes iniciar sesión.');
-              this.router.navigate(['/login']); // Navega al login
-            },
-          );
-        }
+    const username = this.username;
+    const password = this.password;
+    const role = 'USER';
+
+    this.authService.register(username, password, role).subscribe({
+      next: (response) => {
+        alert('Registro exitoso. Ahora puedes iniciar sesión.');
+        this.router.navigate(['/login']);
       },
-      error => {
-        console.error('Error al verificar usuario', error);
-        alert('No se pudo verificar el usuario. Por favor, intenta nuevamente.');
+      error: (error) => {
+        console.error('Error al registrar usuario:', error);
+        alert('No se pudo registrar el usuario. Por favor, intenta nuevamente.');
       }
-    );
+    });
   }
 
   togglePasswordVisibility() {
@@ -70,3 +64,4 @@ export class RegisterComponent {
     this.router.navigate(['/login']);
   }
 }
+

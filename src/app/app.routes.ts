@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import {DestinationComponent} from "./destination/pages/destination/destination.component";
 import {AuthGuard} from "./login/auth.guard";
 import {PageNotFoundComponent} from "./home/pages/page-not-found/page-not-found.component";
-import {HomeComponent} from "./home/pages/home/home.component";
 import {PlansComponent} from "./home/pages/plans/plans.component";
 import {ServicesComponent} from "./home/pages/services/services.component";
 import {TickerBookingComponent} from "./ticketbooking/pages/ticker-booking/ticker-booking.component";

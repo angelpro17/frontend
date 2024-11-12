@@ -24,35 +24,35 @@ import {MatIcon} from "@angular/material/icon";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email: string = '';
+  username: string = '';
   password: string = '';
   showPassword: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  // Método para iniciar sesión
   onSubmit() {
-    if (this.email && this.password) {
-      this.authService.login(this.email, this.password).subscribe((isAuthenticated) => {
-        if (isAuthenticated) {
-          // Redirige a la app después de autenticarse
-          this.router.navigate(['/home']);
-        } else {
-          alert('Credenciales incorrectas. Inténtalo de nuevo.');
+    if (this.username && this.password) {
+      this.authService.login(this.username, this.password).subscribe(
+        (isAuthenticated) => {
+          if (isAuthenticated) {
+            this.router.navigate(['/home']);
+          } else {
+            alert('Credenciales incorrectas. Inténtalo de nuevo.');
+          }
+        },
+        (error) => {
+          console.error('Error en la autenticación:', error);
+          alert('Error en el servidor. Inténtalo de nuevo más tarde.');
         }
-      });
+      );
     }
   }
 
-  // Alternar visibilidad de la contraseña
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
-  // Navegar a la página de registro
   navigateToRegister() {
     this.router.navigate(['/register']);
   }
-
-
 }

@@ -1,74 +1,58 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { catchError, map, Observable, throwError, switchMap } from "rxjs";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'https://fake-api-go-uni.vercel.app';
+  private apiUrl = 'https://gounibackend-production.up.railway.app/api/v1/authentication';
 
   constructor(private http: HttpClient) {}
 
-  isLoggedIn(): boolean {
-    const user = localStorage.getItem('authUser');
-    return user !== null;
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
-  checkUserExists(email: string): Observable<any> {
-    return this.http.get<any[]>(`${this.baseUrl}/users?email=${email}`)
-      .pipe(
-        map(users => users.length > 0 ? users : null),
-        catchError(this.handleError)
-      );
-  }
+  login(username: string, password: string): Observable<boolean> {
+    const url = `${this.apiUrl}/sign-in`;
+    const body = { username, password };
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  register(userData: any): Observable<any> {
-    return this.checkUserExists(userData.email).pipe(
-      map(existingUser => {
-        if (existingUser) {
-          throw new Error('User already exists');
+    return this.http.post<any>(url, body, { headers }).pipe(
+      map(response => {
+        if (response && response.token) {
+          localStorage.setItem('token', response.token); // Almacena el token
+          return true;
         }
-        return userData;  // Devuelve userData para el siguiente paso
+        return false;
       }),
-      switchMap(validUserData => {
-        return this.http.post(`${this.baseUrl}/users`, validUserData).pipe(
-          catchError(this.handleError)
-        );
-      }),
-      catchError(this.handleError)
+      catchError(error => {
+        console.error('Error during login:', error);
+        return of(false);
+      })
     );
   }
 
-  login(email: string, password: string): Observable<boolean> {
-    return this.http.get<any[]>(`${this.baseUrl}/users?email=${email}`)
-      .pipe(
-        map(users => {
-          if (users.length > 0 && users[0].password === password) {
-            localStorage.setItem('authUser', JSON.stringify(users[0]));
-            return true;
-          }
-          throw new Error('Invalid credentials');
-        }),
-        catchError(this.handleError)
-      );
+  register(username: string, password: string, role: string = 'USER'): Observable<any> {
+    const url = `${this.apiUrl}/sign-up`;
+    const body = { username, password, role };
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post<any>(url, body, { headers }).pipe(
+      catchError(error => {
+        console.error('Error during registration:', error);
+        return of(null);
+      })
+    );
   }
 
-  logout() {
-    localStorage.removeItem('authUser');
-    console.log('Usuario desconectado');
+  isLoggedIn(): boolean {
+    return !!this.getToken();
   }
 
-  private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
-    if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Error del lado del servidor
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(() => new Error(errorMessage));
+  logout(): void {
+    localStorage.removeItem('token');
   }
 }

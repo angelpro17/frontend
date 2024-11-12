@@ -12,7 +12,6 @@ import {MiniMapComponent} from "../../../maps/components/mini-map/mini-map.compo
 import {MapsLayoutComponent} from "../../../maps/layout/maps-layout/maps-layout.component";
 import {SideMenuComponent} from "../../../maps/components/side-menu/side-menu.component";
 import {MarkersPageComponent} from "../../../maps/pages/markers-page/markers-page.component";
-import {MatCard, MatCardContent} from "@angular/material/card";
 
 @Component({
   selector: 'app-ticker-booking',
@@ -28,9 +27,7 @@ import {MatCard, MatCardContent} from "@angular/material/card";
     MiniMapComponent,
     MapsLayoutComponent,
     SideMenuComponent,
-    MarkersPageComponent,
-    MatCardContent,
-    MatCard
+    MarkersPageComponent
   ],
   templateUrl: './ticker-booking.component.html',
   styleUrl: './ticker-booking.component.css'
