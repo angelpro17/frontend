@@ -109,21 +109,6 @@ export class PaymentModalComponent {
       cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]]
     });
   }
-  formatCardNumber(event: Event): void {
-    const input = (event.target as HTMLInputElement);
-    input.value = input.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
-  }
-
-  formatExpiryDate(event: Event): void {
-    const input = (event.target as HTMLInputElement);
-    input.value = input.value.replace(/[^0-9]/g, '').replace(/(.{2})/, '$1/').substr(0, 5);
-  }
-
-  formatCVV(event: Event): void {
-    const input = (event.target as HTMLInputElement);
-    input.value = input.value.replace(/\D/g, '').substr(0, 3);
-  }
-
 
   onCancel(): void {
     this.dialogRef.close();
