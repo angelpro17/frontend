@@ -1,67 +1,59 @@
 <app-toolbar></app-toolbar>
 
-<mat-card class="booking-card">
-  <h2>Reserva tu viaje con {{ destination.name }}</h2>
+<div class="booking-container">
+  <button class="cancel-button" (click)="goBack()">Cancelar</button>
+  <h1>Confirmación de Reserva</h1>
+  <p>Reserva tu viaje con {{ destination?.name }}</p>
 
-  <mat-divider></mat-divider>
+  <div class="selection">
+    <div>
+      <h2>Elige Fecha</h2>
+      <div class="date-options">
+        <button *ngFor="let day of days"
+                (click)="selectDate(day.date)"
+                [class.selected]="selectedDate === day.date">
+          {{ day.date.getDate() }} {{ day.dayName }}
+        </button>
+      </div>
+    </div>
 
-  <!-- Selección de Fecha -->
-  <div class="date-time-selector">
-    <h3>Elige Fecha</h3>
-    <mat-button-toggle-group [(ngModel)]="selectedDate">
-      <mat-button-toggle *ngFor="let day of days" [value]="day.date">
-        {{ day.date }} {{ day.dayName }}
-      </mat-button-toggle>
-    </mat-button-toggle-group>
+    <div>
+      <h2>Elige Hora</h2>
+      <div class="time-options">
+        <button *ngFor="let time of ['8:00', '10:30', '13:00', '15:00', '16:30']"
+                (click)="selectTime(time)"
+                [class.selected]="selectedTime === time">
+          {{ time }}
+        </button>
+      </div>
+    </div>
   </div>
 
-  <!-- Selección de Hora -->
-  <div class="date-time-selector">
-    <h3>Elige Hora</h3>
-    <mat-button-toggle-group [(ngModel)]="selectedTime">
-      <mat-button-toggle *ngFor="let time of ['8:00', '10:30', '13:00', '15:00', '16:30']" [value]="time">
-        {{ time }}
-      </mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
-
-  <!-- Detalles del conductor -->
-  <div class="driver-details">
-    <h3>Conductor</h3>
-    <img [src]="destination.driver.photo" alt="{{ destination.driver.name }}" class="driver-photo" />
+  <div class="driver-details" *ngIf="destination?.driver">
+    <h2>Conductor</h2>
+    <img [src]="destination.driver.photo" alt="{{ destination.driver.name }}" class="driver-photo">
     <p><strong>{{ destination.driver.name }}</strong></p>
-    <p><strong>Placa:</strong> {{ destination.driver.vehiclePlate }}</p>
-    <p><strong>Ubicación:</strong> {{ destination.location }}</p>
-    <p><strong>Fecha y Hora:</strong> {{ selectedDate }} a las {{ selectedTime }}</p>
+    <p>Placa: {{ destination.driver.vehiclePlate }}</p>
+    <p>Ubicación: {{ destination.location }}</p>
+    <p>Fecha y Hora: {{ selectedDate ? selectedDate.toLocaleDateString() : 'Selecciona una fecha' }} a las {{ selectedTime }}</p>
   </div>
 
-  <!-- Mostrar Descuento -->
+  <div class="insurance-section">
+    <h3>Seleccionar Seguro</h3>
+    <p>ABC Insurance</p>
+    <p>Código: ABCNAME12345</p>
+  </div>
+
   <div class="discount-section">
-    <h3>Descuento del conductor</h3>
-    <p>{{ destination.driver.discount }}</p>
+    <h3>Descuento</h3>
+    <input type="text" placeholder="Ingrese código de descuento" [(ngModel)]="discountCode">
+    <button (click)="applyDiscount()">Aplicar</button>
   </div>
 
-  <!-- Ingreso de Descuento -->
-  <div class="discount-section">
-    <h3>Ingresa código de descuento</h3>
-    <mat-form-field>
-      <input matInput placeholder="Código de descuento" [(ngModel)]="discountCode" />
-    </mat-form-field>
-    <button mat-button (click)="applyDiscount()">Aplicar</button>
+  <div class="total-section">
+    <h2>Total a Pagar</h2>
+    <p>S/. {{ total | number:'1.2-2' }}</p>
   </div>
 
-  <!-- Total del viaje -->
-  <div class="total">
-    <h3>Total: S/. {{ total | number:'1.2-2' }}</h3>
-  </div>
-
-  <!-- Botón para confirmar -->
-  <button mat-raised-button color="primary" class="confirm-button" (click)="confirmReservation()">
-    Confirma viaje
-  </button>
-
-  <!-- Botón para volver -->
-  <button mat-raised-button color="warn" class="back-button" (click)="goBack()">
-    Volver
-  </button>
-</mat-card>
+  <button class="confirm-button" (click)="confirmReservation()">Confirmar Viaje</button>
+</div>
