@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import { DestinationComponent } from "./destination/pages/destination/destination.component";
 import { AuthGuard } from "./login/auth.guard";
 import { PageNotFoundComponent } from "./home/pages/page-not-found/page-not-found.component";
@@ -7,6 +7,8 @@ import { ServicesComponent } from "./home/pages/services/services.component";
 import { TickerBookingComponent } from "./ticketbooking/pages/ticker-booking/ticker-booking.component";
 import { RegisterComponent } from "./login/components/register/register.component";
 import { RescheduleTripComponent } from "./booking/components/reschedule-trip/reschedule-trip.component";
+import {ChatComponent} from "./chat/components/chat/chat.component";
+import {NgModule} from "@angular/core";
 
 export const routes: Routes = [
   {
@@ -27,11 +29,19 @@ export const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
     canActivate: [AuthGuard],
   },
-  { path: 'plans', component: PlansComponent },
-  { path: 'services', component: ServicesComponent },
+  { path: 'plans',
+    component: PlansComponent,
+    canActivate: [AuthGuard]
+  },
+
+  { path: 'services',
+    component: ServicesComponent,
+    canActivate: [AuthGuard]
+  },
   {
     path: 'ticketbooking',
     component: TickerBookingComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'maps',
@@ -43,6 +53,11 @@ export const routes: Routes = [
     component: DestinationComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'chat/:userId',
+    component: ChatComponent,
+    canActivate: [AuthGuard],},
+
+
   {
     path: 'booking',
     loadChildren: () => import('./booking/booking.module').then(m => m.BookingModule),
@@ -59,3 +74,8 @@ export const routes: Routes = [
     component: PageNotFoundComponent,
   },
 ];
+
+
+
+
+

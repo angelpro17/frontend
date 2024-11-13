@@ -17,7 +17,8 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -30,7 +31,12 @@
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "sockjs-client",
+              "@stomp/stompjs",
+              "buffer"
+            ]
           },
           "configurations": {
             "production": {
@@ -76,7 +82,8 @@
           "options": {
             "polyfills": [
               "zone.js",
-              "zone.js/testing"
+              "zone.js/testing",
+              "src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [

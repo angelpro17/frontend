@@ -21,7 +21,7 @@
 
     <div class="reservation-actions">
       <button mat-button color="accent" [routerLink]="['/reschedule', reserva.id]">Reprogramar</button>
-      <button mat-raised-button color="primary" (click)="openChat(reserva)">Chat</button>
+      <button mat-raised-button color="primary" [routerLink]="['/chat', reserva.usuarioId]">Chat</button>
       <button mat-raised-button color="warn" (click)="deleteReservation(reserva.id)">Eliminar</button>
 
     </div>
