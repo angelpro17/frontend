@@ -12,10 +12,12 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  // Método para obtener el token desde localStorage
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
+  // Método de inicio de sesión que recibe usuario y contraseña
   login(username: string, password: string): Observable<boolean> {
     const url = `${this.apiUrl}/sign-in`;
     const body = { username, password };
@@ -24,7 +26,8 @@ export class AuthService {
     return this.http.post<any>(url, body, { headers }).pipe(
       map(response => {
         if (response && response.token) {
-          localStorage.setItem('token', response.token); // Almacena el token aquí
+          // Almacena el token en localStorage
+          localStorage.setItem('token', response.token);
           return true;
         }
         return false;
@@ -36,7 +39,7 @@ export class AuthService {
     );
   }
 
-
+  // Método de registro
   register(username: string, password: string, role: string = 'USER'): Observable<any> {
     const url = `${this.apiUrl}/sign-up`;
     const body = { username, password, role };
@@ -50,10 +53,12 @@ export class AuthService {
     );
   }
 
+  // Método para verificar si el usuario está logueado
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
+  // Método de logout para eliminar el token
   logout(): void {
     localStorage.removeItem('token');
   }
