@@ -5,8 +5,6 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import {MatIcon} from "@angular/material/icon";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-payment-modal',
@@ -17,9 +15,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
-    MatIcon,
-    MatProgressSpinner
+    MatButtonModule
   ],
   template: `
     <h2 mat-dialog-title>Pago para Plan {{data.plan}}</h2>
@@ -96,14 +92,6 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
           </mat-form-field>
         </div>
       </form>
-      <div *ngIf="isProcessing" class="loading">
-        <mat-spinner diameter="30"></mat-spinner>
-        <p>Procesando pago...</p>
-      </div>
-      <div *ngIf="paymentSuccess" class="success-message">
-        <mat-icon>check_circle</mat-icon>
-        <p>Pago realizado correctamente</p>
-      </div>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button (click)="onCancel()">Cancelar</button>
@@ -111,7 +99,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
         mat-raised-button
         color="primary"
         (click)="onSubmit()"
-        [disabled]="!paymentForm.valid || isProcessing || paymentSuccess">
+        [disabled]="!paymentForm.valid">
         Pagar S/.{{data.amount}}
       </button>
     </mat-dialog-actions>
@@ -131,23 +119,10 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
     mat-form-field {
       width: 100%;
     }
-    .loading, .success-message {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 1rem;
-      text-align: center;
-      justify-content: center;
-    }
-    .success-message mat-icon {
-      color: green;
-    }
   `]
 })
 export class PaymentModalComponent {
   paymentForm: FormGroup;
-  isProcessing = false;
-  paymentSuccess = false;
 
   constructor(
     private fb: FormBuilder,
@@ -191,14 +166,7 @@ export class PaymentModalComponent {
 
   onSubmit(): void {
     if (this.paymentForm.valid) {
-      this.isProcessing = true;
-      setTimeout(() => {
-        this.isProcessing = false;
-        this.paymentSuccess = true;
-        setTimeout(() => {
-          this.dialogRef.close(this.paymentForm.value);
-        }, 2000); // Cierra el modal después de mostrar el mensaje de éxito
-      }, 3000); // Simula el procesamiento de pago
+      this.dialogRef.close(this.paymentForm.value);
     }
   }
 }

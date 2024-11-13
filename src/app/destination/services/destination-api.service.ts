@@ -9,7 +9,7 @@ import {ServiceDestination} from "./interfaces/destinationApi";
 export class DestinationApiService {
 
   //Aqui va ir el URL del JSON-SERVER
-  private apiUrl = 'http://localhost:3000/destinations';
+  private apiUrl = 'https://deploynew.onrender.com/destinations';
 
   constructor(private http: HttpClient) { }
 

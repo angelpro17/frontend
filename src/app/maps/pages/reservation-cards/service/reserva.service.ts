@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class ReservaService {
-  private apiUrl = 'http://localhost:3000/reservas';  // URL del JSON-Server
+  private apiUrl = 'https://deploynew.onrender.com/reservas';  // URL del JSON-Server
 
   constructor(private http: HttpClient) {}
 
