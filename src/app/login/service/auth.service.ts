@@ -2,13 +2,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = 'https://gounibackend-production.up.railway.app/api/v1/authentication';
+  private apiUrl2 = 'https://deploynew.onrender.com/api/v1/authentication';
 
   constructor(private http: HttpClient) {}
 
@@ -17,13 +18,13 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  // Método de inicio de sesión que recibe usuario y contraseña
+  // Método de inicio de sesión que intenta ambos enlaces
   login(username: string, password: string): Observable<boolean> {
-    const url = `${this.apiUrl}/sign-in`;
     const body = { username, password };
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<any>(url, body, { headers }).pipe(
+    // Primer intento con apiUrl
+    return this.http.post<any>(`${this.apiUrl}/sign-in`, body, { headers }).pipe(
       map(response => {
         if (response && response.token) {
           // Almacena el token en localStorage
@@ -33,22 +34,41 @@ export class AuthService {
         return false;
       }),
       catchError(error => {
-        console.error('Error during login:', error);
-        return of(false);
+        console.error('Error during login with apiUrl:', error);
+        // Si falla, intenta con apiUrl2
+        return this.http.post<any>(`${this.apiUrl2}/sign-in`, body, { headers }).pipe(
+          map(response => {
+            if (response && response.token) {
+              localStorage.setItem('token', response.token);
+              return true;
+            }
+            return false;
+          }),
+          catchError(error => {
+            console.error('Error during login with apiUrl2:', error);
+            return of(false);
+          })
+        );
       })
     );
   }
 
-  // Método de registro
+  // Método de registro que intenta ambos enlaces
   register(username: string, password: string, role: string = 'USER'): Observable<any> {
-    const url = `${this.apiUrl}/sign-up`;
     const body = { username, password, role };
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<any>(url, body, { headers }).pipe(
+    // Primer intento con apiUrl
+    return this.http.post<any>(`${this.apiUrl}/sign-up`, body, { headers }).pipe(
       catchError(error => {
-        console.error('Error durante el registro:', error);
-        return of(null);
+        console.error('Error during register with apiUrl:', error);
+        // Si falla, intenta con apiUrl2
+        return this.http.post<any>(`${this.apiUrl2}/sign-up`, body, { headers }).pipe(
+          catchError(error => {
+            console.error('Error during register with apiUrl2:', error);
+            return of(null);
+          })
+        );
       })
     );
   }
