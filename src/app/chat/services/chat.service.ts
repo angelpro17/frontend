@@ -12,7 +12,7 @@ export class ChatService {
 
   private stompClient: any;
   private messageSubject: BehaviorSubject<ChatMessage[]> = new BehaviorSubject<ChatMessage[]>([]);
-  private apiUrl = 'http://localhost:8080'; // URL base del backend
+  private apiUrl = 'https://gouniprojectdeploy-production.up.railway.app'; // URL base del backend
 
   constructor(private httpClient: HttpClient) {
     this.initConnectionSocket();
