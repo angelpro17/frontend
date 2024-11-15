@@ -47,7 +47,10 @@ export class ToolbarComponent {
   }
 
   toggleTheme() {
-    this.themeService.toggleTheme();
+    const body = document.body;
+    body.classList.toggle('dark-theme');
+    const isDark = body.classList.contains('dark-theme');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }
 
   get isDarkTheme(): boolean {

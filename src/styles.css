@@ -1,26 +1,159 @@
 :root {
+  /* Colores base */
   --background-light: #ffffff;
-  --text-light: #000000;
-  --primary-light: #3f51b5;
-  --toolbar-bg-light: #ffffff;
-  --toolbar-text-light: #000000;
-
   --background-dark: #303030;
+  --text-light: #000000;
   --text-dark: #ffffff;
+
+  /* Colores primarios */
+  --primary-light: #3f51b5;
   --primary-dark: #7986cb;
+  --primary-hover-light: #303f9f;
+  --primary-hover-dark: #5c6bc0;
+
+  /* Colores de la barra de herramientas */
+  --toolbar-bg-light: #ffffff;
   --toolbar-bg-dark: #424242;
+  --toolbar-text-light: #000000;
   --toolbar-text-dark: #ffffff;
+
+  /* Colores de las tarjetas */
+  --card-bg-light: #ffffff;
+  --card-bg-dark: #424242;
+  --card-border-light: rgba(0, 0, 0, 0.12);
+  --card-border-dark: rgba(255, 255, 255, 0.12);
+
+  /* Colores de texto secundarios */
+  --text-secondary-light: #666666;
+  --text-secondary-dark: #aaaaaa;
+
+  /* Efectos y sombras */
+  --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-dark: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* Estilos base del body */
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: var(--background-light);
   color: var(--text-light);
-  transition: background-color 0.3s, color 0.3s;
+  transition: all 0.3s ease;
 }
 
+/* Tema oscuro */
 body.dark-theme {
   background-color: var(--background-dark);
   color: var(--text-dark);
 }
+
+/* Estilos de la barra de herramientas */
+mat-toolbar {
+  background-color: var(--toolbar-bg-light) !important;
+  color: var(--toolbar-text-light) !important;
+  transition: all 0.3s ease;
+}
+
+.dark-theme mat-toolbar {
+  background-color: var(--toolbar-bg-dark) !important;
+  color: var(--toolbar-text-dark) !important;
+}
+
+/* Estilos de las tarjetas */
+mat-card {
+  background-color: var(--card-bg-light) !important;
+  border: 1px solid var(--card-border-light);
+  transition: all 0.3s ease;
+}
+
+.dark-theme mat-card {
+  background-color: var(--card-bg-dark) !important;
+  border-color: var(--card-border-dark);
+}
+
+/* Estilos de botones */
+.mat-mdc-raised-button.mat-primary {
+  background-color: var(--primary-light) !important;
+}
+
+.dark-theme .mat-mdc-raised-button.mat-primary {
+  background-color: var(--primary-dark) !important;
+}
+
+/* Estilos de texto */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-light);
+  transition: color 0.3s ease;
+}
+
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3,
+.dark-theme h4,
+.dark-theme h5,
+.dark-theme h6 {
+  color: var(--text-dark);
+}
+
+/* Estilos de texto secundario */
+.text-secondary {
+  color: var(--text-secondary-light);
+}
+
+.dark-theme .text-secondary {
+  color: var(--text-secondary-dark);
+}
+
+/* Efectos hover */
+mat-card:hover {
+  box-shadow: var(--shadow-light);
+  transform: translateY(-2px);
+}
+
+.dark-theme mat-card:hover {
+  box-shadow: var(--shadow-dark);
+}
+
+/* Utilidades */
+.mat-elevation-z4 {
+  box-shadow: var(--shadow-light) !important;
+}
+
+.dark-theme .mat-elevation-z4 {
+  box-shadow: var(--shadow-dark) !important;
+}
+
+/* Estilos específicos para los planes */
+.plan-card {
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan-card.featured {
+  border: 2px solid var(--primary-light);
+}
+
+.dark-theme .plan-card.featured {
+  border-color: var(--primary-dark);
+}
+
+.popular-tag {
+  background-color: var(--primary-light);
+  color: white;
+}
+
+.dark-theme .popular-tag {
+  background-color: var(--primary-dark);
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  :root {
+    --shadow-light: 0 1px 2px rgba(0, 0, 0, 0.1);
+    --shadow-dark: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
