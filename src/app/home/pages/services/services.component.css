@@ -1,68 +1,128 @@
 .how-it-works {
-  background-color: #FFFFFF;
-  padding: 2rem;
+  padding: 4rem 2rem;
   text-align: center;
-  margin-top: -5rem;
+  background: linear-gradient(180deg, var(--background-start-rgb) 0%, var(--background-end-rgb) 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.dark-theme .how-it-works {
+  --background-start-rgb: #1a1a1a;
+  --background-end-rgb: #2d2d2d;
+  color: #ffffff;
 }
 
 .how-it-works h2 {
-  margin-top: 4rem;
-  font-size: 50px;
-  text-align: left;
-  color: #333;
-  font-weight: bold;
-  margin-bottom: 20px;
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: black;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.dark-theme .how-it-works h2 {
+  background: linear-gradient(to right, #90caf9, #42a5f5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .how-it-works h2 span {
-  font-weight: bold;
-  font-size: 36px;
+  display: block;
+  font-size: 2rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
 }
 
 .steps-container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
   margin-top: 4rem;
+  padding: 0 1rem;
 }
 
 .step {
-  max-width: 300px;
-  padding: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.step-icon {
-  font-size: 60px;
-  color: #4CAF50;
-  margin-bottom: 1rem;
+.dark-theme .step {
+  background: rgba(45, 45, 45, 0.8);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.step:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.step img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.step:hover img {
+  transform: scale(1.1);
 }
 
 .step h3 {
-  font-size: 30px;
-  letter-spacing: -1.5%;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, #1976d2, #64b5f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-align: center;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.dark-theme .step h3 {
+  background: linear-gradient(to right, #90caf9, #42a5f5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .step p {
-  font-size: 18px;
+  font-size: 1.1rem;
+  line-height: 1.6;
   color: #666;
+  margin: 0;
+}
+
+.dark-theme .step p {
+  color: #b0b0b0;
 }
 
 @media (max-width: 768px) {
   .how-it-works h2 {
-    font-size: 24px;
+    font-size: 2.5rem;
+  }
+
+  .how-it-works h2 span {
+    font-size: 1.5rem;
   }
 
   .steps-container {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
+    padding: 0;
   }
 
   .step {
-    width: 100%;
-    margin-bottom: 2rem;
+    padding: 1.5rem;
   }
 }

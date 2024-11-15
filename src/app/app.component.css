@@ -1,0 +1,61 @@
+/* Tema Claro (por defecto) */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --toolbar-background-color: #ffffff;
+  --toolbar-text-color: #000000;
+  --nav-link-color: #000000;
+  --icon-color: #6200ee;
+}
+
+/* Tema Oscuro */
+.dark-theme {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --toolbar-background-color: #333333;
+  --toolbar-text-color: #ffffff;
+  --nav-link-color: #bb86fc;
+  --icon-color: #bb86fc;
+}
+
+/* Aplicación de las variables de color */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Barra de herramientas */
+mat-toolbar {
+  background-color: var(--toolbar-background-color);
+  color: var(--toolbar-text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Enlaces de navegación */
+.nav-link {
+  color: var(--nav-link-color);
+  font-size: 16px;
+  font-weight: bold;
+  margin: 10px 0;
+  transition: color 0.3s;
+}
+
+/* Iconos en botones */
+button.mat-icon-button {
+  color: var(--icon-color);
+  transition: color 0.3s;
+}
+.dark-theme mat-toolbar {
+  background-color: var(--toolbar-background-color) !important;
+  color: var(--toolbar-text-color) !important;
+}
+
+/* Estilos adicionales para los íconos de usuario */
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-top: -5px;
+  margin-left: -3px;
+}

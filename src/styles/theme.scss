@@ -1,0 +1,35 @@
+@use '@angular/material' as mat;
+
+// Definir los temas claro y oscuro
+$light-theme: mat.define-light-theme((
+  color: (
+    primary: mat.define-palette(mat.$indigo-palette),
+    accent: mat.define-palette(mat.$pink-palette),
+    warn: mat.define-palette(mat.$red-palette),
+  )
+));
+
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: mat.define-palette(mat.$blue-grey-palette),
+    accent: mat.define-palette(mat.$amber-palette),
+    warn: mat.define-palette(mat.$deep-orange-palette),
+  )
+));
+
+// Variables CSS personalizadas
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --toolbar-background: #ffffff;
+  --toolbar-text: #000000;
+  --card-background: #ffffff;
+}
+
+.dark-theme {
+  --background-color: #303030;
+  --text-color: #ffffff;
+  --toolbar-background: #424242;
+  --toolbar-text: #ffffff;
+  --card-background: #424242;
+}

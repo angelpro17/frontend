@@ -1,4 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --background-light: #ffffff;
+  --text-light: #000000;
+  --primary-light: #3f51b5;
+  --toolbar-bg-light: #ffffff;
+  --toolbar-text-light: #000000;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+  --background-dark: #303030;
+  --text-dark: #ffffff;
+  --primary-dark: #7986cb;
+  --toolbar-bg-dark: #424242;
+  --toolbar-text-dark: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--background-light);
+  color: var(--text-light);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-theme {
+  background-color: var(--background-dark);
+  color: var(--text-dark);
+}
