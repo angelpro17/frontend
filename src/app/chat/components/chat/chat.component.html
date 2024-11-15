@@ -12,22 +12,21 @@
     </div>
   </div>
   <ul class="messages">
-    <li class="message right" *ngFor="let item of messageList"
-        [ngClass]="{'left': item.message_side === 'receiver', 'right': item.message_side === 'sender'}"
-    >
+    <li class="message" *ngFor="let item of messageList"
+        [ngClass]="{'right': item.message_side === 'sender', 'left': item.message_side === 'receiver'}">
+      <span class="username">{{ item.user }}</span> <!-- Nombre del usuario siempre visible -->
       <div class="avatar"></div>
       <div class="text_wrapper">
-        <div class="text">{{item.message}}</div>
+        <div class="text">{{ item.message }}</div>
       </div>
     </li>
   </ul>
   <div class="bottom_wrapper clearfix">
     <div class="message_input_wrapper">
       <input class="message_input" placeholder="Message..." [(ngModel)]="messageInput"
-             (keyup.enter)="sendMessage()"/>
+             (keyup.enter)="sendMessage()" />
     </div>
     <div class="send_message" (click)="sendMessage()">
-      <div class="icon"></div>
       <div class="text">Send</div>
     </div>
   </div>

@@ -1,67 +1,69 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Stomp } from '@stomp/stompjs';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, interval } from 'rxjs';
 import { ChatMessage } from "../models/chat-message";
-import SockJS from "sockjs-client";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
+  private messageSubject = new BehaviorSubject<ChatMessage[]>([]);
+  private apiUrl = 'https://gouniprojectdeploy-production.up.railway.app/api/v1/chat';
+  private pollingInterval = 2000; // Poll every 2 seconds
 
-  private stompClient: any;
-  private messageSubject: BehaviorSubject<ChatMessage[]> = new BehaviorSubject<ChatMessage[]>([]);
-  private apiUrl = 'https://gouniprojectdeploy-production.up.railway.app'; // URL base del backend
-
-  constructor(private httpClient: HttpClient) {
-    this.initConnectionSocket();
+  constructor(
+    private httpClient: HttpClient,
+    private snackBar: MatSnackBar
+  ) {
+    // Start polling for messages
+    this.startPolling();
   }
 
-  initConnectionSocket() {
-    const socket = new SockJS(`${this.apiUrl}/chat-socket`);
-    this.stompClient = Stomp.over(socket);
-    this.stompClient.connect({}, () => {
-      console.log("Conectado al WebSocket");
-    }, (error: Error) => {
-      console.error("Error en la conexión WebSocket:", error);
-    });
-  }
-
-  joinRoom(roomId: string) {
-    this.stompClient.connect({}, () => {
-      this.stompClient.subscribe(`/topic/${roomId}`, (message: any) => {
-        const messageContent: ChatMessage = JSON.parse(message.body);
-        const currentMessages = this.messageSubject.getValue();
-        currentMessages.push(messageContent);
-        this.messageSubject.next(currentMessages);
+  private startPolling(): void {
+    interval(this.pollingInterval).subscribe(() => {
+      this.loadMessages().catch(error => {
+        console.error('Error polling messages:', error);
       });
     });
-
-    this.loadMessages(roomId);
   }
 
-  sendMessage(roomId: string, chatMessage: ChatMessage) {
-    if (this.stompClient && this.stompClient.connected) {
-      this.stompClient.send(`/app/chat/${roomId}`, {}, JSON.stringify(chatMessage));
-    } else {
-      console.error('WebSocket no está conectado');
+  async sendMessage(message: ChatMessage): Promise<void> {
+    try {
+      await this.httpClient.post(`${this.apiUrl}/send`, message).toPromise();
+      await this.loadMessages(); // Refresh messages after sending
+    } catch (error) {
+      console.error('Error sending message:', error);
+      this.showError('Error al enviar mensaje');
+      throw error;
     }
   }
 
-  getMessageSubject() {
+  private async loadMessages(): Promise<void> {
+    try {
+      const messages = await this.httpClient
+        .get<ChatMessage[]>(`${this.apiUrl}/messages`)
+        .toPromise();
+
+      if (messages) {
+        this.messageSubject.next(messages);
+      }
+    } catch (error) {
+      console.error('Error loading messages:', error);
+      this.showError('Error al cargar mensajes');
+      throw error;
+    }
+  }
+
+  getMessages(): Observable<ChatMessage[]> {
     return this.messageSubject.asObservable();
   }
 
-  loadMessages(roomId: string) {
-    const headers = new HttpHeaders().set('Authorization', `Bearer YOUR_TOKEN_HERE`);
-    this.httpClient.get<ChatMessage[]>(`${this.apiUrl}/api/chat/messages`, { headers }).subscribe({
-      next: (chatMessages: ChatMessage[]) => {
-        this.messageSubject.next(chatMessages);
-      },
-      error: (error) => {
-        console.error('Error loading messages:', error);
-      }
+  private showError(message: string): void {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
     });
   }
 }
