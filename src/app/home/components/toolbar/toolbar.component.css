@@ -2,6 +2,10 @@ mat-toolbar {
   background-color: var(--toolbar-bg-light);
   color: var(--toolbar-text-light);
   transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 :host-context(.dark-theme) mat-toolbar {
@@ -13,11 +17,10 @@ mat-toolbar {
   flex: 1 1 auto;
 }
 
-.nav-link {
-  font-size: 16px;
-  font-weight: bold;
-  color: inherit;
-  margin: 10px 0;
+/* Iconos de acciones adicionales en una fila */
+.icon-actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .user-avatar {
@@ -28,15 +31,33 @@ mat-toolbar {
   margin-left: -3px;
 }
 
-@media (max-width: 768px) {
-  mat-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
+/* Navegación vertical en pantallas pequeñas */
+.nav-links-vertical {
+  display: none; /* Oculto por defecto */
+  flex-direction: column;
+  padding: 1rem;
+  background-color: var(--toolbar-bg-light);
+  width: 100%;
+}
 
-  .nav-link {
-    font-size: 14px;
+.nav-link {
+  font-size: 16px;
+  font-weight: bold;
+  color: inherit;
+  margin: 5px 0;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  /* Mostrar la navegación vertical al hacer clic en el menú */
+  .nav-links-vertical {
+    display: flex;
+  }
+}
+
+@media (min-width: 769px) {
+  /* Oculta el botón de menú hamburguesa en pantallas grandes */
+  .mobile-menu-button {
+    display: none;
   }
 }

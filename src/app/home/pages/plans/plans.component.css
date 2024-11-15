@@ -185,7 +185,47 @@ button {
   background: rgba(66, 165, 245, 0.1);
   color: #42a5f5;
 }
+/* Contenedor del sidenav */
+.sidenav-container {
+  height: 100%;
+}
 
+/* Estilo del menú lateral */
+.sidenav {
+  width: 250px;
+}
+
+/* Estilo del avatar */
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-top: -5px;
+  margin-left: -3px;
+}
+
+/* Ocultar el botón de menú hamburguesa en pantallas grandes */
+.hamburger-icon {
+  display: none;
+}
+
+/* Mostrar links en pantalla completa solo en pantallas grandes */
+.nav-links {
+  display: flex;
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+  /* Mostrar el botón de menú hamburguesa en pantallas pequeñas */
+  .hamburger-icon {
+    display: inline-block;
+  }
+
+  /* Ocultar los links en pantalla completa en dispositivos móviles */
+  .nav-links {
+    display: none;
+  }
+}
 @media (max-width: 768px) {
   .plans {
     padding: 2rem 1rem;

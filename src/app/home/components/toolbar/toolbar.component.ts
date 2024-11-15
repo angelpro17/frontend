@@ -1,13 +1,15 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import {Component, HostListener, Inject, PLATFORM_ID} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { NgIf, NgOptimizedImage } from "@angular/common";
 import { LanguageSwitcherComponent } from "../language-switcher/language-switcher.component";
 import { MatToolbar } from "@angular/material/toolbar";
 import { MatAnchor, MatButton, MatIconButton } from "@angular/material/button";
-import { RouterLink } from "@angular/router";
+import {RouterLink, RouterOutlet} from "@angular/router";
 import { MatIcon } from "@angular/material/icon";
 import { Router } from "@angular/router";
 import {ThemeService} from "../../../services/theme.service";
+import {MatSidenav, MatSidenavContainer} from "@angular/material/sidenav";
+import {MatListItem, MatNavList} from "@angular/material/list";
 
 @Component({
   selector: 'app-toolbar',
@@ -21,12 +23,21 @@ import {ThemeService} from "../../../services/theme.service";
     MatButton,
     MatIconButton,
     MatIcon,
-    NgIf
+    NgIf,
+    MatSidenavContainer,
+    MatNavList,
+    MatListItem,
+    RouterOutlet,
+    MatSidenav,
+
   ],
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent {
+  isSidenavOpen = false;
+  isLargeScreen = true;
+
   constructor(
     private router: Router,
     private themeService: ThemeService,
@@ -37,6 +48,15 @@ export class ToolbarComponent {
       if (savedTheme === 'dark') {
         this.themeService.setDarkTheme(true);
       }
+    }
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize', [])
+  checkScreenSize() {
+    this.isLargeScreen = window.innerWidth >= 769;
+    if (this.isLargeScreen) {
+      this.isSidenavOpen = false;
     }
   }
 
@@ -55,5 +75,9 @@ export class ToolbarComponent {
 
   get isDarkTheme(): boolean {
     return this.themeService.isDarkTheme();
+  }
+
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
   }
 }
