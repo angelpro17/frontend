@@ -17,6 +17,11 @@
   max-width: 400px; /* Limita el ancho máximo */
   text-align: center;
 }
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
 
 /* Estilos para el logo y título */
 .logo {

@@ -16,11 +16,12 @@ export class ChatService {
     private httpClient: HttpClient,
     private snackBar: MatSnackBar
   ) {
-    // Start polling for messages
+    console.log('Chat service initialized');
     this.startPolling();
   }
 
   private startPolling(): void {
+    console.log('Starting message polling');
     interval(this.pollingInterval).subscribe(() => {
       this.loadMessages().catch(error => {
         console.error('Error polling messages:', error);
@@ -30,7 +31,9 @@ export class ChatService {
 
   async sendMessage(message: ChatMessage): Promise<void> {
     try {
+      console.log('Sending message to backend:', message);
       await this.httpClient.post(`${this.apiUrl}/send`, message).toPromise();
+      console.log('Message sent successfully');
       await this.loadMessages(); // Refresh messages after sending
     } catch (error) {
       console.error('Error sending message:', error);
@@ -41,11 +44,13 @@ export class ChatService {
 
   private async loadMessages(): Promise<void> {
     try {
+      console.log('Loading messages from backend');
       const messages = await this.httpClient
         .get<ChatMessage[]>(`${this.apiUrl}/messages`)
         .toPromise();
 
       if (messages) {
+        console.log('Messages received:', messages);
         this.messageSubject.next(messages);
       }
     } catch (error) {

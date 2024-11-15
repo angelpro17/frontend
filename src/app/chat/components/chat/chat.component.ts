@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { ToolbarComponent } from "../../../home/components/toolbar/toolbar.component";
 import { ChatService } from "../../services/chat.service";
 import { ChatMessage } from "../../models/chat-message";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {AuthService} from "../../../login/service/auth.service";
 
 @Component({
   selector: 'app-chat',
@@ -21,17 +21,20 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class ChatComponent implements OnInit {
   messageInput: string = '';
-  userId: string = 'guest-user';
+  userId: string = '';
   messageList: any[] = [];
   isLoading: boolean = true;
 
   constructor(
     private chatService: ChatService,
-    private route: ActivatedRoute
-  ) {}
+    private authService: AuthService
+  ) {
+    const currentUser = this.authService.getLoggedInUser();
+    this.userId = currentUser ? currentUser.username : 'Guest';
+  }
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.params['userId'] || 'guest-user';
+    console.log('Chat initialized for user:', this.userId);
     this.setupChat();
   }
 
@@ -43,6 +46,7 @@ export class ChatComponent implements OnInit {
           message_side: item.user === this.userId ? 'sender' : 'receiver'
         }));
         this.isLoading = false;
+        console.log('Messages loaded:', this.messageList);
       },
       error => {
         console.error('Error receiving messages:', error);
@@ -62,7 +66,9 @@ export class ChatComponent implements OnInit {
         user: this.userId
       };
 
+      console.log('Sending message:', message);
       await this.chatService.sendMessage(message);
+      console.log('Message sent successfully');
       this.messageInput = '';
     } catch (error) {
       console.error('Error sending message:', error);
