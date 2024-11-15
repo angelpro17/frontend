@@ -25,12 +25,14 @@ import { NgOptimizedImage } from "@angular/common";
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  username: string = ''; // Campo para el correo/código institucional
-  password: string = ''; // Campo para la contraseña
-  showPassword = false;
-  termsAccepted = false;
+  firstName: string = ''; // Campo para nombres
+  lastName: string = ''; // Campo para apellidos
+  username: string = ''; // Campo para correo/código institucional
+  password: string = ''; // Campo para contraseña
+  showPassword = false; // Mostrar/ocultar contraseña
+  termsAccepted = false; // Checkbox para términos y condiciones
 
-  // Expresión regular para validar la estructura de los correos
+  // Expresión regular para validar la estructura del correo institucional
   private usernameRegex = /^[uU]\d{9}@(upc\.edu\.pe|pucp\.edu\.pe|unmsm\.edu\.pe)$/;
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -40,27 +42,44 @@ export class RegisterComponent {
     return this.usernameRegex.test(username);
   }
 
+  // Validación y envío del formulario
   onSubmit() {
     console.log('Iniciando proceso de registro...');
+
+    // Validar términos y condiciones
     if (!this.termsAccepted) {
       console.warn('El usuario no aceptó los Términos y Condiciones.');
       alert('Debes aceptar los Términos y Condiciones para continuar.');
       return;
     }
 
+    // Validar estructura del correo institucional
     if (!this.isUsernameAllowed(this.username)) {
-      console.warn('El código institucional no cumple con el formato requerido.');
-      alert('El código institucional debe tener la estructura válida (uXXXXXXXX@dominio permitido).');
+      console.warn('El correo institucional no cumple con el formato requerido.');
+      alert('El correo institucional debe tener la estructura válida (uXXXXXXXX@dominio permitido).');
       return;
     }
 
-    const username = this.username;
-    const password = this.password;
-    const role = 'USER';
+    // Validar que los campos de nombres y apellidos no estén vacíos
+    if (!this.firstName.trim() || !this.lastName.trim()) {
+      console.warn('Los campos de nombres y apellidos son obligatorios.');
+      alert('Los campos de nombres y apellidos no pueden estar vacíos.');
+      return;
+    }
 
-    console.log('Datos enviados para registro:', { username, password, role });
+    // Preparar datos para el registro
+    const registrationData = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      username: this.username,
+      password: this.password,
+      role: 'USER'
+    };
 
-    this.authService.register(username, password, role).subscribe({
+    console.log('Datos enviados para registro:', registrationData);
+
+    // Llamar al servicio de autenticación para registrar al usuario
+    this.authService.register(registrationData.username, registrationData.password, registrationData.role).subscribe({
       next: (response) => {
         console.log('Registro exitoso. Respuesta del servidor:', response);
         alert('Registro exitoso. Ahora puedes iniciar sesión.');
@@ -73,11 +92,13 @@ export class RegisterComponent {
     });
   }
 
+  // Alternar la visibilidad de la contraseña
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
     console.log('Estado de visibilidad de contraseña:', this.showPassword ? 'Visible' : 'Oculta');
   }
 
+  // Navegar a la página de inicio de sesión
   navigateToLogin() {
     console.log('Navegando a la página de inicio de sesión...');
     this.router.navigate(['/login']);

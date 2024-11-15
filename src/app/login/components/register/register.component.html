@@ -5,9 +5,43 @@
     </div>
     <h2>Bienvenido</h2>
     <form class="login-form" (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <!-- Nombres -->
+      <div class="input-group">
+        <label for="firstName">Nombres</label>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-icon matPrefix>person</mat-icon>
+          <input
+            matInput
+            type="text"
+            id="firstName"
+            name="firstName"
+            [(ngModel)]="firstName"
+            placeholder="Ingresa tus nombres"
+            required
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Apellidos -->
+      <div class="input-group">
+        <label for="lastName">Apellidos</label>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-icon matPrefix>person</mat-icon>
+          <input
+            matInput
+            type="text"
+            id="lastName"
+            name="lastName"
+            [(ngModel)]="lastName"
+            placeholder="Ingresa tus apellidos"
+            required
+          />
+        </mat-form-field>
+      </div>
+
       <!-- Username -->
       <div class="input-group">
-        <label for="username">Código Institucional</label>
+        <label for="username">Correo Institucional</label>
         <mat-form-field appearance="fill" class="full-width">
           <mat-icon matPrefix>mail</mat-icon>
           <input
