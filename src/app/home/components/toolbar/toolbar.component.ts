@@ -1,5 +1,5 @@
 import {Component, HostListener, Inject, PLATFORM_ID} from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import {isPlatformBrowser, NgClass} from '@angular/common';
 import { NgIf, NgOptimizedImage } from "@angular/common";
 import { LanguageSwitcherComponent } from "../language-switcher/language-switcher.component";
 import { MatToolbar } from "@angular/material/toolbar";
@@ -29,6 +29,7 @@ import {MatListItem, MatNavList} from "@angular/material/list";
     MatListItem,
     RouterOutlet,
     MatSidenav,
+    NgClass,
 
   ],
   templateUrl: './toolbar.component.html',
@@ -56,7 +57,7 @@ export class ToolbarComponent {
   checkScreenSize() {
     this.isLargeScreen = window.innerWidth >= 769;
     if (this.isLargeScreen) {
-      this.isSidenavOpen = false;
+      this.isSidenavOpen = false; // Asegura que el sidenav esté cerrado en pantallas grandes
     }
   }
 

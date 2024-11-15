@@ -31,33 +31,51 @@ mat-toolbar {
   margin-left: -3px;
 }
 
-/* Navegación vertical en pantallas pequeñas */
+/* Navegación en una columna en pantallas pequeñas */
 .nav-links-vertical {
-  display: none; /* Oculto por defecto */
+  margin-top: 0;
+  display: flex;
   flex-direction: column;
-  padding: 1rem;
+  gap: 5rem;
+  padding: 4rem;
   background-color: var(--toolbar-bg-light);
   width: 100%;
+  position: absolute;
+  top: 60px; /* Ajusta según la altura de tu toolbar */
+  left: 0;
+}
+
+/* Navegación en una fila en pantallas grandes */
+.nav-links-horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  color: black;
 }
 
 .nav-link {
+  margin-top: -4rem;
   font-size: 16px;
   font-weight: bold;
-  color: inherit;
-  margin: 5px 0;
+  color: black !important;
 }
 
-/* Media queries */
+/* Media queries para el botón hamburguesa */
 @media (max-width: 768px) {
-  /* Mostrar la navegación vertical al hacer clic en el menú */
-  .nav-links-vertical {
-    display: flex;
+  .mobile-menu-button {
+    display: inline-block;
   }
 }
 
 @media (min-width: 769px) {
-  /* Oculta el botón de menú hamburguesa en pantallas grandes */
   .mobile-menu-button {
+    display: none;
+  }
+
+  /* Oculta el menú vertical en pantallas grandes */
+  .nav-links-vertical {
     display: none;
   }
 }
