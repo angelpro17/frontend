@@ -3,7 +3,13 @@
   justify-content: space-between;
   padding: 20px;
 }
+.view-more-button .btn {
+  color: white;
+}
 
+.options .btn-si {
+  color: white;
+}
 .map-section {
   flex: 1;
   display: flex;

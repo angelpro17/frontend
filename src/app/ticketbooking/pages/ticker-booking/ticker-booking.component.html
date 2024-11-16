@@ -19,8 +19,8 @@
 
     <!-- Botón para ver más del mapa -->
     <div class="view-more-button">
-      <button mat-raised-button color="primary" (click)="expandMap()">Ampliar el mapa</button>
-      <button mat-raised-button color="primary" (click)="navigateToMaps()">Ver más del mapa</button>
+      <button class="btn" mat-raised-button color="primary" (click)="expandMap()">Ampliar el mapa</button>
+      <button class="btn" mat-raised-button color="primary" (click)="navigateToMaps()">Ver más del mapa</button>
 
     </div>
 
@@ -51,7 +51,7 @@
     <div class="booking-options">
       <span>¿Deseas reservar?</span>
       <div class="options">
-        <button mat-raised-button color="primary" (click)="navigateToBooking()">SI</button>
+        <button class="btn-si" mat-raised-button color="primary" (click)="navigateToBooking()">SI</button>
         <button mat-raised-button color="warn" (click)="navigateToHome()">NO</button>
       </div>
     </div>

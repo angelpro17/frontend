@@ -8,9 +8,35 @@ mat-toolbar {
   justify-content: space-between;
 }
 
+
 :host-context(.dark-theme) mat-toolbar {
   background-color: var(--toolbar-bg-dark);
   color: var(--toolbar-text-dark);
+}
+
+:host-context(.dark-theme) .nav-link {
+  color: white !important; /* Override for dark theme text */
+}
+
+:host-context(.dark-theme) .nav-link mat-icon {
+  color: white; /* Icons color in dark theme */
+}
+
+:host-context(.dark-theme) .nav-links-vertical {
+  background-color: var(--toolbar-bg-dark);
+}
+
+:host-context(.dark-theme) .icon-actions mat-icon {
+  color: white; /* Top toolbar icons in dark theme */
+}
+
+/* Ensure vertical navigation in dark theme has proper colors */
+:host-context(.dark-theme) .nav-links-vertical .nav-link {
+  color: white !important;
+}
+
+:host-context(.dark-theme) .nav-links-vertical .nav-link mat-icon {
+  color: white;
 }
 
 .mat-spacer {

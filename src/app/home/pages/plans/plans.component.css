@@ -94,7 +94,9 @@ h3 {
 .dark-theme h3 {
   color: #42a5f5;
 }
-
+.plan-card .btn-subscribe {
+  color: white;
+}
 .price {
   font-size: 3.5rem;
   font-weight: 800;

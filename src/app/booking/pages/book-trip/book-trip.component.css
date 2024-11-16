@@ -1,82 +1,187 @@
 .booking-container {
   max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.cancel-button {
-  background-color: #ff6b6b;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
+/* Typography */
+h1, h2, h3, p, label {
+  color: #1a1a1a;
 }
 
 h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
   text-align: center;
-  margin-bottom: 20px;
+  margin: 1.5rem 0;
 }
 
+/* Date and Time Selection */
 .selection {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
-.time-options {
-  display: flex;
-  gap: 10px;
+.date-options, .time-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 8px;
 }
 
-.time-options button {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.date-options button, .time-options button {
+  padding: 12px;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
   cursor: pointer;
-  background-color: #e0e0e0;
+  background-color: #f8f9fa;
+  color: #1a1a1a;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
-.time-options button.selected {
+.date-options button:hover, .time-options button:hover {
+  background-color: #e9ecef;
+}
+
+.date-options button.selected, .time-options button.selected {
   background-color: #4CAF50;
   color: white;
+  border-color: #4CAF50;
 }
 
+/* Driver Details */
 .driver-details {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
   text-align: center;
-  margin: 20px 0;
+  margin: 2rem 0;
 }
 
 .driver-photo {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  margin-bottom: 10px;
+  margin: 0 auto 1rem;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.insurance-section, .discount-section, .total-section {
-  margin: 20px 0;
-  padding: 15px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Insurance and Discount Sections */
+.insurance-section, .discount-section {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin: 1.5rem 0;
+}
+
+.discount-section {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
 .discount-section input {
-  padding: 10px;
-  margin-right: 10px;
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  color: #1a1a1a;
+}
+
+/* Buttons */
+.discount-section button, .confirm-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
 }
 
 .confirm-button {
-  width: 100%;
-  padding: 15px;
-  border: none;
   background-color: #4CAF50;
   color: white;
-  font-size: 16px;
-  border-radius: 5px;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+.confirm-button:hover {
+  background-color: #45a049;
+}
+
+.cancel-button {
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 500;
+}
+
+.cancel-button:hover {
+  background-color: #ff6b6b;
+}
+
+/* Total Section */
+.total-section {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.total-section h2 {
+  margin-bottom: 0.5rem;
+}
+
+.total-section p {
+  color: #4CAF50;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .booking-container {
+    margin: 10px;
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .date-options, .time-options {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  }
+
+  .date-options button, .time-options button {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .discount-section {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 768px) {
+  .selection {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .discount-section input {
+    margin-bottom: 0;
+  }
+
+  .discount-section button {
+    width: auto;
+  }
 }
